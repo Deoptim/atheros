@@ -1,1 +1,1 @@
-# atheros
+# atheros datasheets and config files for OpenOCD programm
