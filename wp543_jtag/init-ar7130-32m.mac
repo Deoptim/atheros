@@ -1,0 +1,96 @@
+; macro file for AR7100 boards (32 MB ram)
+; OCD Commander settings:
+;     Target Processor: MIPS, EJTAG 2.5, 32 bit
+;     Connection      : LPT1
+;     OCD Device      : Wiggler
+;     OCD Speed       : 380 KHz
+
+reset
+mipsendian big
+
+; set PLL
+word 0xb8050000 = 0x800F40A3
+
+; disable flash remap
+word 0xbf000004 = 0x43
+
+; update PLL, will cause reset
+word 0xb8050008 = 0x3
+halt
+
+; set PLL
+word 0xb8050000 = 0x800F40EB
+word 0xb8050000 = 0x800F00EB
+word 0xb8050000 = 0x800F00EA
+delay 10
+word 0xb8050000 = 0xC00F00E8
+
+word 0xb8050008 = 0x1
+
+
+; DDR
+word 0xb8000000 = 0xF7BC8CD0
+word 0xb8000004 = 0x82D156A2
+delay 10
+
+word 0xb8000010 = 0x8
+delay 10
+
+word 0xb8000010 = 0x1
+delay 10
+
+word 0xb800000c = 0x0
+delay 10
+
+word 0xb8000010 = 0x2
+delay 10
+
+word 0xb8000010 = 0x8
+delay 10
+
+word 0xb8000008 = 0x31
+delay 10
+
+word 0xb8000010 = 0x1
+delay 10
+
+word 0xb8000014 = 0x461b
+delay 10
+
+word 0xb8000018 = 0xffff
+
+word 0xb800001C = 0x7
+word 0xb8000020 = 0x7
+word 0xb8000024 = 0x7
+word 0xb8000028 = 0x7
+
+;
+; UART Test
+;
+
+; set GPIO 9 & 10 as UART
+word 0xb8040000 = 0x400
+word 0xb8040028 = 0x100
+
+word 0xb8020004 = 0x0
+word 0xb802000c = 0x83
+word 0xb8020000 = 0x51
+word 0xb8020004 = 0x0
+word 0xb802000c = 0x3
+word 0xb8020008 = 0xc1
+
+delay 10
+word 0xb8020000 = 0x50
+delay 10
+word 0xb8020000 = 0x51
+delay 10
+word 0xb8020000 = 0x52
+delay 10
+word 0xb8020000 = 0x53
+
+; load file
+delay 500
+download myloram.srec
+
+delay 100
+go
