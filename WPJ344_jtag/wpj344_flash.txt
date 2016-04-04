@@ -1,1 +1,60 @@
+Using OCD Commander to flash WPJ344 u-boot
+-----------------------------------------
 
+Note: OCD Commander only support download of SREC file, so tuboot.bin
+      needs to be converted to SREC format. i.e.
+        objcopy -I binary -O srec --change-addresses 0xa0001010 --srec-forceS3 tuboot.bin tuboot.srec
+
+For board with blank flash or non-working u-boot
+-------------------------------------------------------------------------------
+1) Power up WPJ344 board
+2) Start OCD commander, enable "Defaults->Auto Status Check"
+3) Click "Macro" and selects wpj344_init.mac
+4) Wait until "Flash write done" appears on the serial console.
+   The wait time is about 80 seconds
+
+
+For board with working u-boot
+-------------------------------------------------------------------------------
+No JTAG is required, use ethernet to update u-boot
+1) Power up WPJ344 board
+2) When the message "Hit any key to stop autoboot" appears on the serial
+   console, press any key to stop the autoboot
+3) Start a TFTP server on PC host with IP address 192.168.1.10, copy the file
+   tuboot.bin to the tftp directory
+4) At the u-boot command prompt, enter:
+    ar7240> run lu
+   This will download tuboot.bin from PC and flash it
+
+To flash Atheros reference firmware
+-------------------------------------------------------------------------------
+No JTAG is required, use ethernet to update the firmware kernel and file system
+1) Power up WPJ344 board
+2) When the message "Hit any key to stop autoboot" appears on the serial
+   console, press any key to stop the autoboot
+3) Start a TFTP server on PC host with IP address 192.168.1.10, copy the file
+   vmlinux.lzma.uImage and db12x-jffs2 to the tftp directory
+4) At the u-boot command prompt, enter:
+    ar7240> run lk
+   This will download vmlinux.lzma.uImage (kernel file) from PC and flash it
+    ar7240> run lf
+   This will download db12x-jffs2 from PC and flash it
+
+Calibration data on 16MB board
+-------------------------------------------------------------------------------
+The data should be in 0x9fff1000, pls use the u-boot command to check:
+    ar7240> md 0x9fff1000
+If the contents are all 0xff, the firmware cannot work.
+
+If the calibration data is present in location 0x9f7f1000, it can be copied
+to the correct location, first check the location:
+    ar7240> md 0x9f7f1000
+Then issue the commands to copy:
+    ar7240> cp.b 0x9f7f0000 0x80600000 0x10000
+    ar7240> erase 0x9fff0000 +0x10000
+    ar7240> cp.b 0x80600000 0x9fff0000 0x10000
+
+Check again:
+    ar7240> md 0x9fff1000
+
+ 
