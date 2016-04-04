@@ -1,0 +1,83 @@
+; macro file for AR7200 boards (32/64 MB ram)
+; OCD Commander settings:
+;     Target Processor: MIPS, EJTAG 2.5, 32 bit
+;     Connection      : LPT1
+;     OCD Device      : Wiggler
+;     OCD Speed       : 380 KHz
+
+reset
+mipsendian big
+
+
+; WAR for the bug#55574: Set the CKE (bit 7 in DDR_CONFIG2 register) 
+; to low initially 
+word 0xB8000004 = 0x99D10628
+
+
+; set PLL
+word 0xb8050000 = 0x00040828
+
+
+; update PLL
+word 0xb8050008 = 0x1
+delay 10
+
+word 0xb8050008 = 0x0
+
+; disable flash remap
+word 0xbf000004 = 0x43
+
+
+; DDR
+
+word 0xb8000000 = 0xC7BC8CD0
+word 0xB8000004 = 0x9DD0E6A8
+word 0xB8000010 = 0x00000008
+word 0xB8000008 = 0x00000133
+delay 10
+
+word 0xB8000010 = 0x00000001
+word 0xB800000C = 0x00000000
+word 0xB8000010 = 0x00000002
+word 0xB8000010 = 0x00000008
+word 0xB8000008 = 0x00000033
+word 0xB8000010 = 0x00000001
+
+word 0xB8000014 = 0x00004F10
+word 0xB8000018 = 0x000000FF
+
+word 0xB800001C = 0x00000007
+word 0xB8000020 = 0x00000007
+
+;
+; UART Test
+;
+
+word 0xB8040028 = 0x000480FA
+
+word 0xB802000C = 0x00000083
+word 0xB8020000 = 0x0000006D
+word 0xB8020004 = 0x00000000
+word 0xB802000C = 0x00000003
+word 0xB8020008 = 0x00000001
+
+word 0xB8020000 = 0x00000030
+word 0xB8020000 = 0x00000031
+word 0xB8020000 = 0x00000032
+word 0xB8020000 = 0x00000033
+word 0xB8020000 = 0x00000034
+word 0xB8020000 = 0x00000035
+word 0xB8020000 = 0x00000036
+word 0xB8020000 = 0x00000037
+word 0xB8020000 = 0x00000038
+word 0xB8020000 = 0x00000039
+word 0xB8020000 = 0x0000000D
+word 0xB8020000 = 0x0000000A
+
+; load file
+delay 500
+download myloram.srec
+
+delay 100
+go
+
