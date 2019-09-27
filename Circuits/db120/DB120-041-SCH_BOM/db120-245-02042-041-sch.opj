@@ -1,0 +1,47 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\db120-245-02042-041-sch.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (PartMRUSelector)
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\db120-245-02042-041-sch.dsn")
+      (Path "Design Resources" ".\db120-245-02042-041-sch.dsn" "DB120")
+      (Select "Design Resources" ".\db120-245-02042-041-sch.dsn" "DB120"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -30 0 200 0 260"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -30 25 1132 25 434")
+        (Scroll "2353 2324")
+        (Zoom "172")
+        (Occurrence "/"))
+      (Path
+         "D:\ATHEROS\ATHEROS\WIFI\DEMO\DB120\DB120-041-SCH_BOM\DB120-245-02042-041-SCH.DSN")
+      (Schematic "DB120")
+      (Page "04_AR9344 2G & 5G RF Interface"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -30 50 1157 50 459")
+        (Scroll "142 0")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path
+         "D:\ATHEROS\ATHEROS\WIFI\DEMO\DB120\DB120-041-SCH_BOM\DB120-245-02042-041-SCH.DSN")
+      (Schematic "DB120")
+      (Page "14_T/R Switch, Antenna"))))
